@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import connectDB from './configs/database';
 
-dotenv.config(); // Load environment variables from .env
+// Load environment variables from .env
+dotenv.config();
 
 // Initialize Express app
 const app = express();
@@ -20,9 +22,17 @@ app.get('/', (req: Request, res: Response) => {
   res.send('API is running!');
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running at http://localhost:${PORT}`);
-});
+// Connect database first, then start server
+(async () => {
+  try {
+    await connectDB(); // wait for MongoDB connection
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+})();
 
 export default app;
