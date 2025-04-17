@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './configs/database';
+import articleRouter from './routes/article.routes';
 
 // Load environment variables from .env
 dotenv.config();
@@ -16,6 +17,9 @@ const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 5001;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Mount Routers
+app.use('/api/articles', articleRouter);
 
 // Health‑check route
 app.get('/', (req: Request, res: Response) => {

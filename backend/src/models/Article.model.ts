@@ -78,7 +78,7 @@ const articleSchema = new Schema<IArticle>(
 );
 
 // Create an index on slug for faster lookup (optional but recommended)
-articleSchema.index({ slug: 1 });
+// articleSchema.index({ slug: 1 });
 
 /**
  * Article model based on the schema above.
